@@ -1,0 +1,40 @@
+import sqlite3
+connect=sqlite3.connect("student.db")
+cursor=connect.cursor()
+while(True):
+    print("Enter your choice ")
+    choice = input(
+        "press i to insert " + "\n" + "\n" + "press d to delete " + "\n" + "press s to select "+"\n"+"Type e To exit ")
+    if(choice=="i"):
+        choice = 'y'
+        while (True):
+            choice = input("Do u want to Enter record y/n")
+            if (choice != 'y'):
+                break
+            else:
+                Rollno = input("Enter rollno            :")
+                Name = input("Enter Name                :")
+                phymarks = input("Enter physics marks   :")
+                chemarks = input("Enter chemistry marks  :")
+                cursor.execute("insert into student values(?,?,?,?)", (Rollno, Name, phymarks, chemarks))
+    
+    if choice=="d":
+        XRollNo = int(input("Enter Roll No to delete : "))
+        cursor.execute("delete from student  where Rollno = ?", (XRollNo,))
+    if(choice=="s"):
+        record = '''select * from student;'''
+        data = cursor.execute(record)
+        for i in data:
+            Rollno = i[0]
+            Name = i[1]
+            phymarks = i[2]
+            chemarks = i[3]
+            print(str(Rollno) + "   " + Name + "   " + str(phymarks) + "   " + str(chemarks))
+        #cursor.close()
+    if(choice=="e"):
+        break
+connect.commit()
+connect.close()
+
+
+
